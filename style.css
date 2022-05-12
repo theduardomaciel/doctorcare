@@ -1,0 +1,833 @@
+/*----------------------= Geral =---------------------- */
+:root {
+    font-size: 62.5%;
+    /* 
+    100% ----- 16px
+    x  ------- 10px
+    
+    1rem = 10px
+    */
+
+    --hue: 122;
+
+    --primary-color: hsl(var(--hue), 100%, 26%);
+    --primary-color-light: hsl(calc(var(--hue) - 22), 23%, 89%);
+    --primary-color-light-02: hsl(calc(var(--hue) + 10), 14%, 97%);
+    --primary-color-beige: hsl(39, 100%, 97%);
+    --primary-color-hover: hsl(var(--hue), 100%, 14%);
+
+    --secondary-headline: hsl(210, 11%, 15%);
+    --secondary-paragraph: hsl(210, 9%, 31%);
+    --white: hsl(0, 0%, 100%);
+
+    --nav-height: 7.2rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* As caixas agora passam a ser contadas a partir da borda, e não do conteúdo, evitando problemas com o "padding" */
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-family: 'DM Sans';
+    font-size: 1.6rem;
+    text-align: center;
+
+    overflow: overlay;
+    background-color: var(--primary-color-light-02);
+}
+
+.wrapper {
+    width: min(55rem, 100%);
+    margin-inline: auto;
+    padding-inline: 2.4rem;
+    /* border: 1px solid red; */
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+}
+
+section {
+    padding-block: 10rem;
+}
+
+section header h4 {
+    font-size: 1.4rem;
+    /* Equivale à 100% de font-size no root = padrão do navegador = 16px */
+    color: var(--primary-color);
+    margin-bottom: 1.6rem;
+    text-transform: uppercase;
+}
+
+section header h2 {
+    font-weight: 700;
+    font-size: 3rem;
+    line-height: 3.9rem;
+    color: var(--secondary-headline);
+}
+
+section header h1 {
+    font-size: 3.4rem;
+    color: var(--secondary-color);
+    line-height: 130%;
+}
+
+section .content p {
+    color: var(--secondary-paragraph);
+    font-weight: 400;
+    line-height: 150%;
+}
+
+.button {
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 4rem;
+
+    display: flex;
+    /* Altera como os "filhos" são posicionados dentro do botão */
+    align-items: center;
+    justify-content: center;
+    gap: 1.6rem;
+
+    width: fit-content;
+    /* A largura se adapta ao conteúdo */
+    padding: 1.6rem 3.2rem;
+    /* primeira = vertical | segunda = horizontal */
+
+    color: var(--white);
+    text-transform: uppercase;
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-decoration: none;
+
+    transition: 0.3s;
+}
+
+.button:hover {
+    cursor: pointer;
+    background-color: var(--primary-color-hover);
+}
+
+.social-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3.2rem;
+}
+
+/*----------------------= NAVIGATION =---------------------- */
+nav {
+    display: flex;
+
+    height: var(--nav-height);
+    width: 100vw;
+
+    position: fixed;
+    top: 0;
+    transition: 0.3s;
+
+    z-index: 100;
+}
+
+nav .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* border: 1px solid red; */
+}
+
+nav.scroll {
+    background-color: var(--primary-color);
+    opacity: 0.75;
+    backdrop-filter: blur(6px);
+}
+
+nav button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+nav .menu,
+nav .close-menu {
+    position: fixed;
+}
+
+/*----------------------= MENU EXPANDED =---------------------- */
+
+body.menu-expanded {
+    overflow: hidden;
+}
+
+body.menu-expanded> :not(nav) {
+    /* Some com TUDO na página (primeiro nível - header, body), menos o que foi especificado no :not() */
+    visibility: hidden;
+}
+
+.menu,
+.close-menu,
+body.menu-expanded .open-menu {
+    /* display: none; */
+    visibility: hidden;
+    opacity: 0.5;
+}
+
+body.menu-expanded .menu,
+body.menu-expanded .close-menu {
+    /* display: block; */
+    visibility: visible;
+    opacity: 1;
+}
+
+.menu {
+    transform: translateY(-100%);
+}
+
+body.menu-expanded .menu {
+    top: 0;
+    left: 0;
+    background-color: var(--primary-color);
+
+    width: 100vw;
+    height: 100vh;
+
+    padding-top: var(--nav-height);
+
+    transition: transform 225ms;
+    transition-timing-function: cubic-bezier(0.002, 0.82, 0.165, 1);
+    transform: translateY(0%);
+}
+
+.menu ul:nth-child(1) {
+    display: flex;
+    flex-direction: column;
+    gap: 4.8rem;
+
+    font-weight: 700;
+    font-size: 2.4rem;
+    line-height: 3.1rem;
+
+    margin-top: 6rem;
+}
+
+.menu ul li a {
+    color: var(--white);
+    text-decoration: none;
+}
+
+.menu .button {
+    background-color: var(--white);
+    color: var(--primary-color);
+    border-radius: 4rem;
+    padding: 1.6rem 3.2rem;
+
+    display: inline-block;
+
+    margin-top: 4.8rem;
+    margin-bottom: 8rem;
+
+    font-weight: 700;
+    font-size: 1.8rem;
+    line-height: 2.3rem;
+    text-transform: uppercase;
+    text-decoration: none;
+
+}
+
+.menu .button:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+
+    filter: brightness(1.1);
+}
+
+body.menu-expanded .logo,
+body.menu-expanded nav button {
+    /* Lembrar de especificar que o botão é o do nav */
+    position: relative;
+    z-index: 3;
+}
+
+body.menu-expanded .logo path {
+    fill: var(--white);
+}
+
+body.menu-expanded button path {
+    stroke: var(--white);
+}
+
+/* Custom Colors */
+/* svg circle {
+    fill: var(--primary-color-light);
+}
+
+svg path {
+    stroke: var(--primary-color);
+} */
+#services .card circle {
+    fill: var(--primary-color-light);
+}
+
+/* Estamos selecionando somente as letras da logo que tem determinada cor */
+#navigation .logo path[fill*="#00856F"],
+#backToTopButton circle {
+    fill: var(--primary-color);
+}
+
+#services .card path,
+button.open-menu path[stroke*="#00856F"],
+#contact li path {
+    stroke: var(--primary-color);
+}
+
+body.menu-expanded #navigation .logo path,
+#navigation.scroll .logo path {
+    fill: var(--white);
+}
+
+#navigation.scroll button.open-menu path[stroke*="#00856F"] {
+    stroke: var(--white);
+}
+
+/*----------------------= HOME =---------------------- */
+
+#home {
+    /* Já que funciona como header, não pode ter essa propriedade - (1:19:30) da aula 5 */
+    padding-block: 0;
+
+    padding-top: calc(4.1rem + var(--nav-height));
+    padding-inline: 2.5rem;
+}
+
+#home h1 {
+    margin-bottom: 2.4rem;
+}
+
+#home::before {
+    /* Estamos adicionando elementos antes das tags HTML que já foram definidas */
+    content: "";
+    background-color: var(--primary-color-light);
+
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+
+    width: 100%;
+    height: calc(76.5% + var(--nav-height));
+}
+
+#home p {
+    font-size: 1.8rem;
+    line-height: 150%;
+    font-weight: 400;
+    color: var(--secondary-paragraph);
+    margin-bottom: 3.2rem;
+}
+
+#home .landing {
+    display: block;
+    margin-inline: auto;
+    object-position: 0 2rem;
+    /* 
+        Movimenta a imagem dentro da caixa "img" nos eixos (x e y) 
+        Precisa ser em "rem" já que atualizamos o width
+    */
+
+    width: 26.4rem;
+    /* Para que o tamanho da imagem acompanhe o zoom da página */
+}
+
+#home .numbers {
+    width: 100%;
+
+    margin-inline: auto;
+    padding-block: 4rem;
+    /* O mesmo que padding-inline (vertical) só que para a horizontal */
+
+    border-radius: 0.6rem;
+    border: 1px solid var(--primary-color-light);
+    background-color: var(--primary-color-beige);
+
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6rem;
+}
+
+#home .number {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#home .number h3 {
+    font-size: 4.8rem;
+    line-height: 130%;
+    color: var(--secondary-headline);
+
+    margin-bottom: 0.4rem;
+}
+
+#home .number p {
+    width: 80%;
+    margin: 0;
+
+    color: var(--primary-color);
+    line-height: 150%;
+    text-align: center;
+}
+
+#home .button {
+    margin-bottom: 6rem;
+    margin-inline: auto;
+}
+
+/*----------------------= Serviços =---------------------- */
+#services header h4 {
+    font-weight: 700;
+    font-size: 1.4rem;
+    line-height: 150%;
+    color: var(--primary-color);
+    letter-spacing: 0.08rem;
+    text-transform: uppercase;
+
+    margin-bottom: 1.6rem;
+}
+
+#services header h2 {
+    font-weight: 700;
+    line-height: 3.9rem;
+    text-align: center;
+    color: var(--secondary-headline);
+
+    margin-bottom: 6rem;
+}
+
+#services .cards {
+    display: flex;
+    flex-direction: column;
+    gap: 3.2rem;
+}
+
+#services .card {
+    padding: 2.4rem;
+    text-align: left;
+
+    background-color: var(--white);
+    border: 1px solid var(--primary-color-light);
+    border-radius: 0.6rem;
+}
+
+#services .card h3 {
+    margin-block: 1.6rem;
+}
+
+/*----------------------= Sobre =---------------------- */
+#about {
+    background-color: var(--primary-color-beige);
+    text-align: left;
+}
+
+#about header h2 {
+    margin-bottom: 2.4rem;
+}
+
+#about .content p {
+    margin-top: 2.4rem;
+    margin-bottom: 6rem;
+}
+
+/*----------------------= Contato =---------------------- */
+#contact {
+    text-align: left;
+}
+
+#contact header {
+    margin-bottom: 3.2rem;
+}
+
+#contact ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+
+    color: var(--secondary-paragraph);
+    margin-bottom: 3.2rem;
+}
+
+#contact .button {
+    margin-bottom: 6rem;
+}
+
+#contact ul li {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+/*----------------------= Footer =---------------------- */
+footer {
+    background-color: var(--primary-color);
+    padding-block: 6rem;
+
+    text-align: left;
+    color: var(--white);
+}
+
+footer .logo {
+    display: inline-block;
+    /* Display inline não aceita quase nada (width, margin) */
+    width: 23.6rem;
+    height: 3.1rem;
+    margin-bottom: 2.4rem;
+}
+
+footer .logo svg {
+    width: 23.6rem;
+    height: 3.1rem;
+}
+
+footer .logo path {
+    fill: var(--white);
+}
+
+footer p {
+    color: var(--primary-color-beige);
+    line-height: 2;
+    margin-bottom: 3.2rem;
+}
+
+footer .social-links {
+    justify-content: flex-start;
+}
+
+/*----------------------= Back to Top =---------------------- */
+#backToTopButton {
+    position: fixed;
+    right: 3rem;
+    bottom: 1rem;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateY(100%);
+    transition: 200ms;
+}
+
+#backToTopButton.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/*----------------------= Responsividade Desktop =---------------------- */
+@media (min-width: 1024px) {
+
+    /* GERAL ====================================== */
+    /* body {
+        Está fazendo com que o nav fique deslocado por conta da barra de scroll
+        overflow: auto;
+    } */
+
+    .wrapper {
+        width: min(112rem, 100%);
+        /* width: min(112rem, 100%); */
+        display: grid;
+    }
+
+    section {
+        padding-block: 8rem;
+        /* padding-block: 16rem; */
+    }
+
+    section header h2 {
+        font-size: 4rem;
+        line-height: 5.2rem;
+    }
+
+    .col-a {
+        grid-area: A;
+    }
+
+    .col-b {
+        grid-area: B;
+    }
+
+    /* NAVIGATION ====================================== */
+    /* [RESETS] */
+    /* Para garantir, colocamos o (nav#navigation) para que essas propriedades sejam mais específicas que as que colocamos encima */
+    nav#navigation .wrapper * {
+        margin: 0;
+        padding: 0;
+        visibility: initial;
+        display: initial;
+        opacity: initial;
+        flex-direction: initial;
+        position: initial;
+        font-size: initial;
+        transform: initial;
+        color: initial;
+        background-color: initial;
+        filter: initial;
+    }
+
+    nav#navigation .close-menu,
+    nav#navigation .open-menu,
+    nav#navigation .social-links {
+        display: none;
+    }
+
+    nav#navigation .menu {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 60%;
+    }
+
+    /* Especificamos o 'child' por conta dos "social-links" que seriam exibidos novamente */
+    nav#navigation .menu ul:nth-child(1) {
+        display: flex;
+        gap: 5rem;
+    }
+
+    nav#navigation .menu ul li a {
+        color: var(--primary-color);
+        font-weight: 400;
+        opacity: 0.7;
+    }
+
+    nav#navigation .menu a.button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem 2.4rem;
+
+        border: 1px solid var(--primary-color);
+        border-radius: 4rem;
+
+        color: var(--primary-color);
+        font-weight: 700;
+        line-height: 1.8rem;
+        font-size: 1.4rem;
+        text-transform: uppercase;
+    }
+
+    nav#navigation .menu a.button:hover {
+        background-color: var(--primary-color);
+        border: none;
+        color: var(--white);
+    }
+
+    nav#navigation.scroll .menu ul li a {
+        color: var(--primary-color-light-02);
+        opacity: 0.6;
+    }
+
+    nav#navigation.scroll .menu a.button {
+        border-color: var(--white);
+        color: var(--white);
+    }
+
+    nav#navigation .menu li a {
+        transition: opacity 0.4s;
+    }
+
+    nav#navigation .menu li a.active,
+    nav#navigation .menu li a:hover {
+        opacity: 1;
+        font-weight: 700;
+    }
+
+    nav#navigation .menu li a::after {
+        content: "";
+        width: 0%;
+        height: 2px;
+        display: block;
+
+        position: relative;
+        bottom: -2rem;
+
+        left: -1rem;
+
+        background-color: var(--primary-color);
+        transition: width 0.2s;
+    }
+
+    nav#navigation.scroll .menu li a::after {
+        background-color: var(--white);
+    }
+
+    nav#navigation .menu li a.active::after,
+    nav#navigation .menu li a:hover::after {
+        padding-inline: 1rem;
+        width: 100%;
+    }
+
+    nav#navigation.scroll .menu li a.active,
+    nav#navigation.scroll .menu li a:hover {
+        opacity: 1;
+    }
+
+    nav#navigation.scroll .menu a.button.active,
+    nav#navigation.scroll .menu a.button:hover {
+        background-color: var(--primary-color);
+        filter: brightness(1.15);
+        border: none;
+    }
+
+    #home h1 {
+        font-size: 5.2rem
+    }
+
+    #home content p {
+        font-size: 1.8rem;
+    }
+
+    /* === HOME ====================================== */
+
+    #home::before {
+        height: calc(96.5% - var(--nav-height));
+    }
+
+    #home {
+        padding-top: var(--nav-height);
+    }
+
+    #home .wrapper {
+        /* 1fr é o equivalente a 50%, mas em "rem", sem sem fixo */
+        grid-template-columns: 60.5rem 1fr;
+        grid-template-areas:
+            'A B'
+            'C C';
+    }
+
+    #home .col-a {
+        text-align: left;
+        align-self: center;
+    }
+
+    #home .numbers {
+        grid-area: C;
+
+        flex-direction: row;
+        padding: 6rem;
+        gap: 0;
+    }
+
+    /* Estamos selecionando dentro da div "numbers", somente aqueles que tenham um stat anteriormente */
+    #home .numbers .number+.number {
+        border-left: 1px solid var(--primary-color);
+    }
+
+    #home .numbers .number {
+        flex: 1;
+    }
+
+    #home .numbers .number p {
+        width: 100%;
+    }
+
+    #home .button {
+        margin: 0;
+    }
+
+    img#home .landing {
+        width: initial;
+        opacity: initial;
+    }
+
+    #home .landing {
+        width: 42rem;
+    }
+
+    /* === SERVICES ====================================== */
+    #services h2 {
+        max-width: 50rem;
+        margin-inline: auto;
+    }
+
+    #services .cards {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    #services .card {
+        width: 30%;
+        flex-grow: 1;
+    }
+
+    /* === ABOUT ====================================== */
+    #about .wrapper {
+        grid-template-columns: 0.65fr 1fr;
+        grid-template-areas: 'B A';
+        gap: 6rem;
+    }
+
+    #about .col-a {
+        align-self: center;
+    }
+
+    #about .content {
+        margin-bottom: 0;
+    }
+
+    /* === CONTACT ====================================== */
+    #contact .wrapper {
+        grid-template-columns: 1fr 57.5rem;
+        grid-template-areas: 'A B';
+        gap: 6rem;
+    }
+
+    #contact h2 {
+        max-width: 40.4rem;
+    }
+
+    #contact .col-a {
+        align-self: center;
+    }
+
+    #contact .content {
+        margin-bottom: 0;
+    }
+
+    /* === FOOTER ====================================== */
+    footer {
+        padding-block: 8rem;
+    }
+
+    footer .wrapper {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: 'A B';
+    }
+
+    footer .col-a {
+        align-self: center;
+    }
+
+    footer .col-b {
+        align-self: center;
+        justify-self: flex-end;
+    }
+
+}
